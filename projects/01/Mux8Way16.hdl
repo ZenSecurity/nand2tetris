@@ -18,64 +18,65 @@ CHIP Mux8Way16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
-    Not(in=sel[2], out=Notsel2);
+    Not(in=sel[2], out=NOTsel2);
+
     Mux4Way16(
     	a=a,
 	b=b,
 	c=c,
 	d=d,
 	sel=sel[0..1],
-	out=Mux4Way16abcdsel01
+	out=abcdMUX4WAY16sel01
     );
+    And16(
+    	a=abcdMUX4WAY16sel01,
+        b[0]=NOTsel2,
+        b[1]=NOTsel2,
+        b[2]=NOTsel2,
+        b[3]=NOTsel2,
+        b[4]=NOTsel2,
+        b[5]=NOTsel2,
+        b[6]=NOTsel2,
+        b[7]=NOTsel2,
+        b[8]=NOTsel2,
+        b[9]=NOTsel2,
+        b[10]=NOTsel2,
+        b[11]=NOTsel2,
+        b[12]=NOTsel2,
+        b[13]=NOTsel2,
+        b[14]=NOTsel2,
+        b[15]=NOTsel2,
+	out=abcdMUX4WAY16sel01AND16NOTsel2
+    );
+
     Mux4Way16(
     	a=e,
 	b=f,
 	c=g,
 	d=h,
 	sel=sel[0..1],
-	out=Mux4Way16efghsel01
+	out=efghMUX4WAY16sel01
     );
     And16(
-        a[0]=Notsel2,
-    	a[1]=Notsel2,
-        a[2]=Notsel2,
-        a[3]=Notsel2,
-        a[4]=Notsel2,
-        a[5]=Notsel2,
-        a[6]=Notsel2,
-        a[7]=Notsel2,
-        a[8]=Notsel2,
-        a[9]=Notsel2,
-        a[10]=Notsel2,
-        a[11]=Notsel2,
-        a[12]=Notsel2,
-        a[13]=Notsel2,
-        a[14]=Notsel2,
-        a[15]=Notsel2,
-	b=Mux4Way16abcdsel01,
-	out=And16aMux4Way16abcdsel01
-    );
-    And16(
-        a[0]=sel[2],
-        a[1]=sel[2],
-        a[2]=sel[2],
-        a[3]=sel[2],
-        a[4]=sel[2],
-        a[5]=sel[2],
-        a[6]=sel[2],
-        a[7]=sel[2],
-        a[8]=sel[2],
-        a[9]=sel[2],
-        a[10]=sel[2],
-        a[11]=sel[2],
-        a[12]=sel[2],
-        a[13]=sel[2],
-        a[14]=sel[2],
-        a[15]=sel[2],
-	b=Mux4Way16efghsel01,
-	out=And16aMux4Way16efghsel01
+    	a=efghMUX4WAY16sel01,
+	b[0]=sel[2],
+	b[1]=sel[2],
+	b[2]=sel[2],
+	b[3]=sel[2],
+	b[4]=sel[2],
+	b[5]=sel[2],
+	b[6]=sel[2],
+	b[7]=sel[2],
+	b[8]=sel[2],
+	b[9]=sel[2],
+	b[10]=sel[2],
+	b[11]=sel[2],
+	b[12]=sel[2],
+	b[13]=sel[2],
+	b[14]=sel[2],
+	b[15]=sel[2],
+	out=efghMUX4WAY16sel01AND16sel2
     );
 
-    Or16(a=And16aMux4Way16abcdsel01, b=And16aMux4Way16efghsel01, out=out);
+    Or16(a=abcdMUX4WAY16sel01AND16NOTsel2, b=efghMUX4WAY16sel01AND16sel2, out=out);
 }

@@ -16,25 +16,22 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    // Put your code here:
+    Not(in=sel[2], out=NOTsel2);
     DMux4Way(
     	in=in,
 	sel=sel[0..1],
-	a=DMux4Wayout1,
-	b=DMux4Wayout2,
-	c=DMux4Wayout3,
-	d=DMux4Wayout4
+	a=insel01DMUX4WAYa,
+	b=insel01DMUX4WAYb,
+	c=insel01DMUX4WAYc,
+	d=insel01DMUX4WAYd
     );
+    And(a=insel01DMUX4WAYa, b=NOTsel2, out=a);
+    And(a=insel01DMUX4WAYb, b=NOTsel2, out=b);
+    And(a=insel01DMUX4WAYc, b=NOTsel2, out=c);
+    And(a=insel01DMUX4WAYd, b=NOTsel2, out=d);
 
-    Not(in=sel[2], out=Notsel2);
-
-    And(a=Notsel2, b=DMux4Wayout1, out=a);
-    And(a=Notsel2, b=DMux4Wayout2, out=b);
-    And(a=Notsel2, b=DMux4Wayout3, out=c);
-    And(a=Notsel2, b=DMux4Wayout4, out=d);
-
-    And(a=sel[2], b=DMux4Wayout1, out=e);
-    And(a=sel[2], b=DMux4Wayout2, out=f);
-    And(a=sel[2], b=DMux4Wayout3, out=g);
-    And(a=sel[2], b=DMux4Wayout4, out=h);
+    And(a=insel01DMUX4WAYa, b=sel[2], out=e);
+    And(a=insel01DMUX4WAYb, b=sel[2], out=f);
+    And(a=insel01DMUX4WAYc, b=sel[2], out=g);
+    And(a=insel01DMUX4WAYd, b=sel[2], out=h);
 }

@@ -16,112 +16,60 @@ CHIP Mux4Way16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
-    Not(in=sel[0], out=Notsel0);
-    Not(in=sel[1], out=Notsel1);
-
-    // out = a if sel == 00
-    And(a=Notsel0, b=Notsel1, out=AndNotsel0Notsel1);
-    // out = b if sel == 01
-    And(a=sel[0], b=Notsel1, out=Andsel0Notsel1);
-    // out = c if sel == 10
-    And(a=Notsel0, b=sel[1], out=AndNotsel0sel1);
-    // out = d if sel == 11
-    And(a=sel[0], b=sel[1], out=Andsel0sel1);
-
-    And16(
-	a[0]=AndNotsel0Notsel1,
-	a[1]=AndNotsel0Notsel1,
-        a[2]=AndNotsel0Notsel1,
-        a[3]=AndNotsel0Notsel1,
-        a[4]=AndNotsel0Notsel1,
-        a[5]=AndNotsel0Notsel1,
-        a[6]=AndNotsel0Notsel1,
-        a[7]=AndNotsel0Notsel1,
-        a[8]=AndNotsel0Notsel1,
-        a[9]=AndNotsel0Notsel1,
-        a[10]=AndNotsel0Notsel1,
-        a[11]=AndNotsel0Notsel1,
-        a[12]=AndNotsel0Notsel1,
-        a[13]=AndNotsel0Notsel1,
-        a[14]=AndNotsel0Notsel1,
-        a[15]=AndNotsel0Notsel1,
-	b=a,
-	out=And16AndNotsel0Notsel1a
-    );
-    And16(
-        a[0]=Andsel0Notsel1,
-        a[1]=Andsel0Notsel1,
-        a[2]=Andsel0Notsel1,
-        a[3]=Andsel0Notsel1,
-        a[4]=Andsel0Notsel1,
-        a[5]=Andsel0Notsel1,
-        a[6]=Andsel0Notsel1,
-        a[7]=Andsel0Notsel1,
-        a[8]=Andsel0Notsel1,
-        a[9]=Andsel0Notsel1,
-        a[10]=Andsel0Notsel1,
-        a[11]=Andsel0Notsel1,
-        a[12]=Andsel0Notsel1,
-        a[13]=Andsel0Notsel1,
-        a[14]=Andsel0Notsel1,
-        a[15]=Andsel0Notsel1,
+    Not(in=sel[1], out=NOTsel1);
+    Mux16(
+	a=a,
 	b=b,
-	out=And16Andsel0Notsel1b
+	sel=sel[0],
+	out=abMUX16sel0	
     );
     And16(
-    	a[0]=AndNotsel0sel1,
-        a[1]=AndNotsel0sel1,
-        a[2]=AndNotsel0sel1,
-        a[3]=AndNotsel0sel1,
-        a[4]=AndNotsel0sel1,
-        a[5]=AndNotsel0sel1,
-        a[6]=AndNotsel0sel1,
-        a[7]=AndNotsel0sel1,
-        a[8]=AndNotsel0sel1,
-        a[9]=AndNotsel0sel1,
-        a[10]=AndNotsel0sel1,
-        a[11]=AndNotsel0sel1,
-        a[12]=AndNotsel0sel1,
-        a[13]=AndNotsel0sel1,
-        a[14]=AndNotsel0sel1,
-        a[15]=AndNotsel0sel1,
-	b=c,
-	out=And16AndNotsel0sel1c
+    	a=abMUX16sel0,
+	b[0]=NOTsel1,
+        b[1]=NOTsel1,
+        b[2]=NOTsel1,
+        b[3]=NOTsel1,
+        b[4]=NOTsel1,
+        b[5]=NOTsel1,
+        b[6]=NOTsel1,
+        b[7]=NOTsel1,
+        b[8]=NOTsel1,
+        b[9]=NOTsel1,
+        b[10]=NOTsel1,
+        b[11]=NOTsel1,
+        b[12]=NOTsel1,
+        b[13]=NOTsel1,
+        b[14]=NOTsel1,
+        b[15]=NOTsel1,
+	out=abMUX16sel0AND16NOTsel1
     );
-    And16(
-    	a[0]=Andsel0sel1,
-        a[1]=Andsel0sel1,
-        a[2]=Andsel0sel1,
-        a[3]=Andsel0sel1,
-        a[4]=Andsel0sel1,
-        a[5]=Andsel0sel1,
-        a[6]=Andsel0sel1,
-        a[7]=Andsel0sel1,
-        a[8]=Andsel0sel1,
-        a[9]=Andsel0sel1,
-        a[10]=Andsel0sel1,
-        a[11]=Andsel0sel1,
-        a[12]=Andsel0sel1,
-        a[13]=Andsel0sel1,
-        a[14]=Andsel0sel1,
-        a[15]=Andsel0sel1,
+
+    Mux16(
+    	a=c,
 	b=d,
-	out=And16Andsel0sel1d
+	sel=sel[0],
+	out=cdMUX16sel0
     );
-    Or16(
-    	a=And16AndNotsel0Notsel1a,
-	b=And16Andsel0Notsel1b,
-	out=Or16And16AndNotsel0Notsel1aAnd16Andsel0Notsel1b
+    And16(
+    	a=cdMUX16sel0,
+	b[0]=sel[1],
+        b[1]=sel[1],
+        b[2]=sel[1],
+        b[3]=sel[1],
+        b[4]=sel[1],
+        b[5]=sel[1],
+        b[6]=sel[1],
+        b[7]=sel[1],
+        b[8]=sel[1],
+        b[9]=sel[1],
+        b[10]=sel[1],
+        b[11]=sel[1],
+        b[12]=sel[1],
+        b[13]=sel[1],
+        b[14]=sel[1],
+        b[15]=sel[1],
+	out=cdMUX16sel0AND16sel1
     );
-    Or16(
-    	a=And16AndNotsel0sel1c,
-	b=And16Andsel0sel1d,
-	out=Or16And16AndNotsel0sel1cAnd16Andsel0sel1d
-    );
-    Or16(
-    	a=Or16And16AndNotsel0Notsel1aAnd16Andsel0Notsel1b,
-	b=Or16And16AndNotsel0sel1cAnd16Andsel0sel1d,
-	out=out
-    );
+
+    Or16(a=abMUX16sel0AND16NOTsel1, b=cdMUX16sel0AND16sel1, out=out);
 }
